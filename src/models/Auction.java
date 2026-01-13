@@ -29,10 +29,30 @@ public class Auction {
     }
 
     public boolean updateHighestBid(Bid bid){
-        if(state == AuctionState.CLOSED) return false;
+        if(state != AuctionState.CLOSED) return false;
 
-        return true;
+        double currentPrice = (highestBid == null) ? basePrice : highestBid.getAmount();
+
+        if(bid.getAmount() >= currentPrice + minIncrement){
+            highestBid = bid;
+            return true;
+        }
+
+        return false;
     }
 
+    public void activate(){
+        this.state = AuctionState.ACTIVE;
+    }
+
+    public void close(){
+        this.state = AuctionState.CLOSED;
+
+
+    }
+    
+    public Bid getHighestBid(){
+        return highestBid;
+    }
     
 }
